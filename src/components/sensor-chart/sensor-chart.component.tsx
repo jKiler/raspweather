@@ -21,6 +21,12 @@ export const SensorChart = (props: SensorChartProps): JSX.Element => {
           toolbar: {
             show: false,
           },
+          animations: {
+            dynamicAnimation: {
+              enabled: true,
+              speed: 900
+            }
+          }
         },
         grid: {
           show: false,
@@ -51,7 +57,7 @@ export const SensorChart = (props: SensorChartProps): JSX.Element => {
           },
         },
       }} series={[{
-        name: 'PM10',
+        name: props.selectedSensor?.param.paramCode,
         data
       }]} type="area" height={320} width={1000}/>
     </div>
