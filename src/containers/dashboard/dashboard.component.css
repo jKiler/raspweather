@@ -1,0 +1,44 @@
+html, body {
+    background-color: darkblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    font-family: 'Nixie One', cursive;
+}
+
+figcaption.station {
+    font-family: 'Raleway', serif;
+    font-size: 14px;
+    margin-top: 15px;
+    text-transform: uppercase;
+    color: white;
+}
+
+figcaption.sensor {
+    font-family: 'Raleway', serif;
+    font-size: 14px;
+    margin-top: 15px;
+    color: white;
+}
+
+span {
+    transition: color .4s ease;
+}
+
+span.green-value {
+    color: #00bc9b;
+}
+
+span.blue-value {
+    color: #5eaefd;
+}
+
+span.light-red-value {
+    color: #fd695e;
+}
+
+span.red-value {
+    color: red;
+}

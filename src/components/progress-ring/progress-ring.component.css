@@ -1,0 +1,40 @@
+circle.circle {
+    transition: stroke-dashoffset .9s ease, stroke .4s ease;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+circle.green-stroke {
+    stroke: #00bc9b;
+    stroke-opacity: 1;
+}
+
+circle.green-stroke-bg {
+    stroke: #00bc9b;
+    stroke-opacity: .3;
+}
+
+circle.blue-stroke {
+    stroke: #5eaefd;
+    stroke-opacity: 1;
+}
+
+circle.blue-stroke-bg {
+    stroke: #5eaefd;
+    stroke-opacity: .3;
+}
+
+circle.light-red-stroke {
+    stroke: #fd695e;
+    stroke-opacity: 1;
+}
+
+circle.light-red-stroke-bg {
+    stroke: #fd695e;
+    stroke-opacity: .3;
+}
+
+circle.red-stroke {
+    stroke: red;
+    stroke-opacity: 1;
+}
