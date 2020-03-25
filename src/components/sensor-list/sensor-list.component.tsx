@@ -12,13 +12,14 @@ export const SensorList = (props: SensorListProps): JSX.Element => {
 
   return (
     <section className="sensor-list">
-        {sensors?.map((sensor: Sensor) => (
-          <SensorListItem
-            key={sensor.id}
-            id={sensor.id}
-            param={sensor.param}
-          />
-        ))}
+      {sensors?.map((sensor: Sensor) => (
+        <SensorListItem
+          key={sensor.id}
+          id={sensor.id}
+          param={sensor.param}
+          measurements={sensor.measurements}
+        />
+      ))}
     </section>
   )
 }

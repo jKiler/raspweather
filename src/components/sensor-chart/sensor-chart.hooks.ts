@@ -15,11 +15,11 @@ export const useSensorChart = (
 
   useEffect(() => {
     if (sensor?.measurements) {
-      const measurements = sensor.measurements
+      const {measurements} = sensor
       let categoriesArr: string[] = []
       let dataArr: number[] = []
       const last24 = measurements?.filter(({value}: Measurement) => value != null).slice(0, 24)
-      last24?.map((measurement) => {
+      last24?.forEach((measurement) => {
         categoriesArr.push(measurement.date.replace(/\s/, "T"))
         dataArr.push(measurement.value)
       })

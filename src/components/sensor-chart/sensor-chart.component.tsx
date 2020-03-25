@@ -8,8 +8,7 @@ export interface SensorChartProps {
 }
 
 export const SensorChart = (props: SensorChartProps): JSX.Element => {
-  const {selectedSensor} = props
-  const {categories, data} = useSensorChart(selectedSensor)
+  const {categories, data} = useSensorChart(props.selectedSensor)
 
   return (
     <div>

@@ -5,7 +5,7 @@ import Sensor from "../../models/sensor.model";
 
 export interface SensorsHooks {
   selectedSensor: Sensor | null;
-  sensors: Sensor[] | null;
+  updatedSensors: Sensor[] | null;
 }
 
 export const useSensors = (
@@ -13,24 +13,25 @@ export const useSensors = (
   selectedSensorId: number,
 ): SensorsHooks => {
   const [sensors, setSensors] = useState<Sensor[] | null>(null)
+  const [updatedSensors, setUpdatedSensors] = useState<Sensor[] | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
   const selectedSensor = useMemo<Sensor | null>((): Sensor | null => {
     function findSensorById(id: number): Sensor | null {
       return (
-        (sensors?.find((sensor: Sensor): boolean => sensor.id === id)) || null
+        (updatedSensors?.find((sensor: Sensor): boolean => sensor.id === id)) || null
       );
     }
 
-    if (sensors?.length && !isFetchInProgress) {
+    if (updatedSensors?.length && !isFetchInProgress) {
       const foundSensor = findSensorById(selectedSensorId);
       if (!foundSensor) {
-        return sensors[0];
+        return updatedSensors[0];
       }
       return foundSensor;
     }
     return null;
-  }, [selectedSensorId, sensors, isFetchInProgress]);
+  }, [selectedSensorId, updatedSensors, isFetchInProgress]);
 
   const fetchSensors = useCallback(() => {
     (async (): Promise<void> => {
@@ -48,18 +49,23 @@ export const useSensors = (
     })();
   }, [selectedStation])
 
+  function getModifiedSensors(sensors: Sensor[]): Promise<any> {
+    return Promise.all(
+      sensors.map(async (sensor: Sensor) => {
+        const sensorData = await SensorApi.getSensorData(sensor.id)
+        sensor.measurements = sensorData.values
+        return sensor
+      })
+    );
+  }
+
   const fetchMeasurements = useCallback(() => {
     (async (): Promise<void> => {
-      if (sensors?.length && !isFetchInProgress) {
+      if (sensors?.length) {
         setIsFetchInProgress(true)
         try {
-          let updated = sensors
-          updated.map(async (sensor: Sensor) => {
-            const sensorData = await SensorApi.getSensorData(sensor.id)
-            sensor.measurements = sensorData.values
-            return sensor
-          })
-          setSensors(updated)
+          const modifiedSensors = await getModifiedSensors(sensors)
+          setUpdatedSensors(modifiedSensors)
         } catch (err) {
           console.log(err)
         } finally {
@@ -67,7 +73,7 @@ export const useSensors = (
         }
       }
     })();
-  }, [sensors, isFetchInProgress])
+  }, [sensors])
 
   useEffect(() => {
     fetchSensors()
@@ -79,6 +85,6 @@ export const useSensors = (
 
   return {
     selectedSensor,
-    sensors
+    updatedSensors
   }
 }

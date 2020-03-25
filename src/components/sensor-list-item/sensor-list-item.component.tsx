@@ -3,14 +3,16 @@ import {ProgressRing} from "../progress-ring/progress-ring.component";
 import {useMeasurements} from "../measurements/measurements.hooks";
 import {useInterval} from "../helpers";
 import Param from "../../models/param.model";
+import Measurement from "../../models/measurement.model";
 
 export interface SensorListItemProps {
   id: number;
-  param?: Param
+  param?: Param;
+  measurements: Measurement[];
 }
 
 export const SensorListItem = (props: SensorListItemProps) => {
-  const {latestMeasurement} = useMeasurements(props.id)
+  const {latestMeasurement} = useMeasurements(props.measurements)
 
   const [progress, setProgress] = useState<number>(0)
 
