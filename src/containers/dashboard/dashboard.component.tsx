@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [selectedSensorId, setSelectedSensorId] = useState<number>(0)
 
   const {closestStation, stations} = useStations(myLat, myLon)
-  const {selectedSensor, updatedSensors} = useSensors(closestStation, selectedSensorId)
+  const {selectedSensor, sensors} = useSensors(closestStation, selectedSensorId)
   const {index} = useIndex(closestStation)
 
   return (
@@ -29,9 +29,9 @@ const Dashboard = () => {
       <figcaption className="station">
         Jakość powietrza: <b>{index?.stIndexLevel?.indexLevelName?.replace(/.$/, "a") || '-'}</b>
       </figcaption>
-      <SensorList sensors={updatedSensors}/>
+      <SensorList sensors={sensors}/>
       <SensorChart selectedSensor={selectedSensor}/>
-      {updatedSensors?.map((sensor: Sensor) => (
+      {sensors?.map((sensor: Sensor) => (
         <button key={sensor.id} onClick={() => setSelectedSensorId(sensor.id)}>{sensor.param.paramCode}</button>
       ))}
     </figure>
