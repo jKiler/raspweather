@@ -23,8 +23,8 @@ export const useSensorChart = (
         categoriesArr.push(measurement.date.replace(/\s/, "T"))
         dataArr.push(measurement.value)
       })
-      setCategories(categoriesArr)
-      setData(dataArr)
+      setCategories(categoriesArr.reverse())
+      setData(dataArr.reverse())
     }
   }, [sensor])
 
