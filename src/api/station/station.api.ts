@@ -5,10 +5,10 @@ import Index from "../../models/index.model";
 
 export class StationApi {
   static getStations(): Promise<Station[]> {
-    return handleResponse(backend.get(`/api/pjp-api/rest/station/findAll`))
+    return handleResponse(backend.get(`/rest/station/findAll`))
   }
 
   static getIndex(stationId: number): Promise<Index> {
-    return handleResponse(backend.get(`/api/pjp-api/rest/aqindex/getIndex/${stationId}`))
+    return handleResponse(backend.get(`/rest/aqindex/getIndex/${stationId}`))
   }
 }

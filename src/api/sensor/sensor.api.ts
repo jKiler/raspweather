@@ -5,10 +5,10 @@ import SensorData from "../../models/sensor-data.model";
 
 export class SensorApi {
   static getSensors(stationId: number): Promise<Sensor[]> {
-    return handleResponse(backend.get(`/api/pjp-api/rest/station/sensors/${stationId}`))
+    return handleResponse(backend.get(`/rest/station/sensors/${stationId}`))
   }
 
   static getSensorData(sensorId: number): Promise<SensorData> {
-    return handleResponse(backend.get(`/api/pjp-api/rest/data/getData/${sensorId}`))
+    return handleResponse(backend.get(`/rest/data/getData/${sensorId}`))
   }
 }
