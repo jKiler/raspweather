@@ -9,16 +9,17 @@ export interface StationsHooks {
 }
 
 export const useStations = (
-  currentLat: number,
-  currentLon: number
+  coords: Coordinates | undefined
 ): StationsHooks => {
+  const latitude = coords?.latitude || parseFloat("50.092895")
+  const longitude = coords?.longitude || parseFloat("50.092895")
   const [stations, setStations] = useState<Station[] | null>(null)
 
   const closestStation = useMemo<Station | null>((): Station | null => {
     function findClosestStation(stations: Station[]): Station {
       return stations.reduce((prev, curr) => {
-        const prevDist = haversine(currentLat, currentLon, prev.gegrLat, prev.gegrLon)
-        const currDist = haversine(currentLat, currentLon, curr.gegrLat, curr.gegrLon)
+        const prevDist = haversine(latitude, longitude, prev.gegrLat, prev.gegrLon)
+        const currDist = haversine(latitude, longitude, curr.gegrLat, curr.gegrLon)
         return prevDist > currDist ? curr : prev
       })
     }
@@ -31,7 +32,7 @@ export const useStations = (
       return foundStation;
     }
     return null;
-  }, [stations, currentLat, currentLon]);
+  }, [stations, latitude, longitude]);
 
   const fetchStations = useCallback(() => {
     (async (): Promise<void> => {

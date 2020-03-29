@@ -1,20 +1,26 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useStations} from "../../components/stations/stations.hooks";
 import {useSensors} from "../../components/sensors/sensors.hooks";
 import {useIndex} from "../../components/index/index.hooks";
 import {SensorList} from "../../components/sensor-list/sensor-list.component";
 import {SensorChart} from "../../components/sensor-chart/sensor-chart.component";
+import {geolocated, GeolocatedProps} from "react-geolocated";
 import Sensor from "../../models/sensor.model";
 import './dashboard.component.css';
 
-const Dashboard = () => {
-  const myLat = parseFloat("50.092895")
-  // const myLon = parseFloat("19.992486")
-  const myLon = parseFloat("50.092895")
+const Dashboard = (props: GeolocatedProps): JSX.Element => {
+  const {isGeolocationAvailable, isGeolocationEnabled, coords} = props
+  const [coordinates, setCoordinates] = useState<Coordinates>()
+
+  useEffect(() => {
+    if (isGeolocationAvailable && isGeolocationEnabled) {
+      setCoordinates(coords)
+    }
+  }, [isGeolocationAvailable, isGeolocationEnabled, coords])
 
   const [selectedSensorId, setSelectedSensorId] = useState<number>(0)
 
-  const {closestStation, stations} = useStations(myLat, myLon)
+  const {closestStation, stations} = useStations(coordinates)
   const {selectedSensor, sensors} = useSensors(closestStation, selectedSensorId)
   const {index} = useIndex(closestStation)
 
@@ -38,4 +44,9 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: false
+  },
+  userDecisionTimeout: 5000
+})(Dashboard);
