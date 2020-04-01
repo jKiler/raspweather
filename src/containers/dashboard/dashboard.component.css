@@ -1,5 +1,5 @@
 html, body {
-    background-color: darkblue;
+    background-color: #263368;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,11 +16,27 @@ figcaption.station {
     color: white;
 }
 
+figcaption.station.loader {
+    font-family: 'Raleway', serif;
+    font-size: 14px;
+    margin-top: 15px;
+    color: white;
+    background-color: #1a275c;
+}
+
 figcaption.sensor {
     font-family: 'Raleway', serif;
     font-size: 14px;
     margin-top: 15px;
     color: white;
+}
+
+figcaption.sensor.loader {
+    font-family: 'Raleway', serif;
+    font-size: 14px;
+    margin-top: 15px;
+    color: white;
+    background-color: #1a275c;
 }
 
 span {

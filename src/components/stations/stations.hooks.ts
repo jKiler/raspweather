@@ -4,7 +4,7 @@ import {haversine} from "../helpers";
 import {StationApi} from "../../api/station/station.api";
 
 export interface StationsHooks {
-  closestStation: Station | null;
+  selectedStation: Station | null;
   stations: Station[] | null;
 }
 
@@ -15,7 +15,7 @@ export const useStations = (
   const longitude = coords?.longitude || parseFloat("50.092895")
   const [stations, setStations] = useState<Station[] | null>(null)
 
-  const closestStation = useMemo<Station | null>((): Station | null => {
+  const selectedStation = useMemo<Station | null>((): Station | null => {
     function findClosestStation(stations: Station[]): Station {
       return stations.reduce((prev, curr) => {
         const prevDist = haversine(latitude, longitude, prev.gegrLat, prev.gegrLon)
@@ -46,7 +46,7 @@ export const useStations = (
   }, [fetchStations])
 
   return {
-    closestStation,
+    selectedStation,
     stations
   }
 }
