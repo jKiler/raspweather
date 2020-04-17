@@ -12,7 +12,7 @@ export const SensorChartLoader = (): JSX.Element => {
           backgroundColor="#1a275c"
           foregroundColor="#121f56"
         >
-          <rect x="0" y="0" rx="10" ry="10" width="1000" height="335"/>
+          <rect x="0" y="0" rx="5" ry="5" width="1000" height="335"/>
         </ContentLoader>
     </div>
   )

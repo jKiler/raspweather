@@ -7,13 +7,13 @@ export const SensorListItemLoader = (): JSX.Element => {
       <ContentLoader
         speed={2}
         width={120}
-        height={154}
-        viewBox="0 0 120 154"
+        height={151}
+        viewBox="0 0 120 151"
         backgroundColor="#1a275c"
         foregroundColor="#121f56"
       >
         <circle cx="60" cy="60" r="52"/>
-        <rect x="0" y="138" rx="10" ry="10" width="120" height="16"/>
+        <rect x="0" y="135" rx="5" ry="5" width="120" height="16"/>
       </ContentLoader>
     </figure>
   )

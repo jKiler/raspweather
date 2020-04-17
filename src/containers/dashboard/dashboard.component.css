@@ -1,13 +1,3 @@
-html, body {
-    background-color: #263368;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    position: relative;
-    font-family: 'Nixie One', cursive;
-}
-
 figcaption.station {
     font-family: 'Raleway', serif;
     font-size: 14px;
