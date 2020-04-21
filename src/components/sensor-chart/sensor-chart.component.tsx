@@ -1,17 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ReactApexChart from 'react-apexcharts'
 import {useSensorChart} from "./sensor-chart.hooks";
 import Sensor from "../../models/sensor.model";
 
 export interface SensorChartProps {
   selectedSensor: Sensor | null,
+  onInitialized?: () => void;
+  style?: React.CSSProperties;
 }
 
-export const SensorChart = (props: SensorChartProps): JSX.Element => {
-  const {categories, data} = useSensorChart(props.selectedSensor)
+const SensorChart = (props: SensorChartProps): JSX.Element => {
+  const {selectedSensor, onInitialized, style} = props
+  const {categories, data} = useSensorChart(selectedSensor)
+
+  useEffect(() => {
+    if (onInitialized && selectedSensor) {
+      onInitialized()
+    }
+  }, [onInitialized, selectedSensor])
 
   return (
-    <div>
+    <div style={style}>
       <ReactApexChart options={{
         chart: {
           height: 350,
@@ -40,17 +49,14 @@ export const SensorChart = (props: SensorChartProps): JSX.Element => {
         },
         xaxis: {
           type: 'datetime',
-          // crosshairs: false,
           tooltip: {
             enabled: false,
           },
           categories
         },
         tooltip: {
-          // enabled: false,
           x: {
             format: 'dd/MM/yy HH:mm'
-            // show: false,
           },
           marker: {
             show: false,
@@ -63,3 +69,5 @@ export const SensorChart = (props: SensorChartProps): JSX.Element => {
     </div>
   )
 }
+
+export default SensorChart;

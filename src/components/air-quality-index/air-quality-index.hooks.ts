@@ -1,22 +1,22 @@
 import {useCallback, useEffect, useState} from "react";
 import {StationApi} from "../../api/station/station.api";
 import Station from "../../models/station.model";
-import Index from "../../models/index.model";
+import AirQualityIndex from "../../models/air-quality-index.model";
 
-export interface IndexHooks {
-  index: Index | null;
+export interface AirQualityIndexHooks {
+  airQualityIndex: AirQualityIndex | null;
 }
 
 export const useIndex = (
   selectedStation: Station | null
-): IndexHooks => {
-  const [index, setIndex] = useState<Index | null>(null)
+): AirQualityIndexHooks => {
+  const [airQualityIndex, setAirQualityIndex] = useState<AirQualityIndex | null>(null)
 
   const fetchIndex = useCallback(() => {
     (async (): Promise<void> => {
       if (selectedStation) {
         const index = await StationApi.getIndex(selectedStation.id)
-        setIndex(index)
+        setAirQualityIndex(index)
       }
     })();
   }, [selectedStation])
@@ -26,6 +26,6 @@ export const useIndex = (
   }, [fetchIndex])
 
   return {
-    index
+    airQualityIndex: airQualityIndex
   }
 }

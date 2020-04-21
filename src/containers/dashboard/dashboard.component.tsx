@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useStations} from "../../components/stations/stations.hooks";
 import {useSensors} from "../../components/sensors/sensors.hooks";
-import {useIndex} from "../../components/index/index.hooks";
-import {SensorList} from "../../components/sensor-list/sensor-list.component";
-import {SensorChart} from "../../components/sensor-chart/sensor-chart.component";
+import {useIndex} from "../../components/air-quality-index/air-quality-index.hooks";
+import {StationInfoLoader} from "../../components/station-info-loader/station-info-loader.component";
+import {SensorListLoader} from "../../components/sensor-list-loader/sensor-list-loader.component";
+import {SensorChartLoader} from "../../components/sensor-chart-loader/sensor-chart-loader.component";
 import {geolocated, GeolocatedProps} from "react-geolocated";
+import DynamicModule from "../../components/dynamic-module";
 import Sensor from "../../models/sensor.model";
 import './dashboard.component.css';
 
@@ -20,23 +22,28 @@ const Dashboard = (props: GeolocatedProps): JSX.Element => {
 
   const [selectedSensorId, setSelectedSensorId] = useState<number>(0)
 
-  const {closestStation, stations} = useStations(coordinates)
-  const {selectedSensor, sensors} = useSensors(closestStation, selectedSensorId)
-  const {index} = useIndex(closestStation)
+  const {selectedStation, stations} = useStations(coordinates)
+  const {selectedSensor, sensors} = useSensors(selectedStation, selectedSensorId)
+  const {airQualityIndex} = useIndex(selectedStation)
 
   return (
     <figure>
-      <figcaption className="station">
-        {closestStation?.city.name || '-'}
-      </figcaption>
-      <figcaption className="station">
-        {closestStation?.addressStreet || closestStation?.stationName || '-'}
-      </figcaption>
-      <figcaption className="station">
-        Jakość powietrza: <b>{index?.stIndexLevel?.indexLevelName?.replace(/.$/, "a") || '-'}</b>
-      </figcaption>
-      <SensorList sensors={sensors}/>
-      <SensorChart selectedSensor={selectedSensor}/>
+      <DynamicModule
+        placeholder={<StationInfoLoader/>}
+        component={() => import("../../components/station-info/station-info.component")}
+        selectedStation={selectedStation}
+        index={airQualityIndex}
+      />
+      <DynamicModule
+        placeholder={<SensorListLoader/>}
+        component={() => import("../../components/sensor-list/sensor-list.component")}
+        sensors={sensors}
+      />
+      <DynamicModule
+        placeholder={<SensorChartLoader/>}
+        component={() => import("../../components/sensor-chart/sensor-chart.component")}
+        selectedSensor={selectedSensor}
+      />
       {sensors?.map((sensor: Sensor) => (
         <button key={sensor.id} onClick={() => setSelectedSensorId(sensor.id)}>{sensor.param.paramCode}</button>
       ))}
@@ -48,5 +55,5 @@ export default geolocated({
   positionOptions: {
     enableHighAccuracy: false
   },
-  userDecisionTimeout: 5000
+  userDecisionTimeout: 5000,
 })(Dashboard);
